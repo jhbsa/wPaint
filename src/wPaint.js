@@ -1097,7 +1097,7 @@
     }
 
     var values = [];
-    var func = (value ? 'set' : 'get') + options.charAt(0).toUpperCase() + options.substring(1);
+    var func;
 
     function runOpts() {
       var wPaint = $.data(this, 'wPaint');
@@ -1117,7 +1117,7 @@
     }
 
     if (typeof options === 'string') {
-
+      func = (value ? 'set' : 'get') + options.charAt(0).toUpperCase() + options.substring(1);
       this.each(runOpts);
 
       if (values.length) { return values.length === 1 ? values[0] : values; }
