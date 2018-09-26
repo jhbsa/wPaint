@@ -1096,6 +1096,9 @@
       return $.proxy(get, this)();
     }
 
+    var values = [];
+    var func = (value ? 'set' : 'get') + options.charAt(0).toUpperCase() + options.substring(1);
+
     function runOpts() {
       var wPaint = $.data(this, 'wPaint');
 
@@ -1114,8 +1117,6 @@
     }
 
     if (typeof options === 'string') {
-      var values = [],
-          func = (value ? 'set' : 'get') + options.charAt(0).toUpperCase() + options.substring(1);
 
       this.each(runOpts);
 
