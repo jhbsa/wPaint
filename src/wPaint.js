@@ -563,7 +563,7 @@
       }
     }
   };
-  
+
   /************************************************************************
    * Paint class
    ************************************************************************/
@@ -1075,16 +1075,7 @@
   $.support.canvas = (document.createElement('canvas')).getContext;
 
   $.fn.wPaint = function (options, value) {
-
-    function create() {
-      if (!$.support.canvas) {
-        $(this).html('Browser does not support HTML5 canvas, please upgrade to a more modern browser.');
-        return false;
-      }
-
-      return $.proxy(get, this)();
-    }
-
+    
     function get() {
       var wPaint = $.data(this, 'wPaint');
 
@@ -1094,6 +1085,15 @@
       }
 
       return wPaint;
+    }
+
+    function create() {
+      if (!$.support.canvas) {
+        $(this).html('Browser does not support HTML5 canvas, please upgrade to a more modern browser.');
+        return false;
+      }
+
+      return $.proxy(get, this)();
     }
 
     function runOpts() {
