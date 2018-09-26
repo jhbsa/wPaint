@@ -307,13 +307,13 @@
           $holder = $('<div class="wPaint-modal-holder"></div>'),
           $close = $('<div class="wPaint-modal-close">X</div>');
 
-      function modalClick() {
-        $modal.fadeOut(500, modalFadeOut);
-      }
-
       function modalFadeOut() {
         $bg.remove();
         $modal.remove();
+      }
+
+      function modalClick() {
+        $modal.fadeOut(500, modalFadeOut);
       }
 
       $close.on('click', modalClick);
