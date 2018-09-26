@@ -1,510 +1,7 @@
 (function ($) {
   'use strict';
 
-  /************************************************************************
-   * Paint class
-   ************************************************************************/
-  function Paint(el, options) {
-    this.$el = $(el);
-    this.options = options;
-    this.init = false;
-
-    this.menus = {primary: null, active: null, all: {}};
-    this.previousMode = null;
-    this.width = this.$el.width();
-    this.height = this.$el.height();
-
-    this.ctxBgResize = false;
-    this.ctxResize = false;
-
-    this.generate();
-    this._init();
-  }
-  
-  Paint.prototype = {
-    generate: function () {
-      if (this.init) { return this; }
-
-      var _this = this;
-
-      // automatically appends each canvas
-      // also returns the jQuery object so we can chain events right off the function call.
-      // for the tempCanvas we will be setting some extra attributes but don't won't matter
-      // as they will be reset on mousedown anyway.
-      function createCanvas(name) {
-        var newName = (name ? name.capitalize() : ''),
-            canvasName = 'canvas' + newName,
-            ctxName = 'ctx' + newName;
-
-        _this[canvasName] = document.createElement('canvas');
-        _this[ctxName] = _this[canvasName].getContext('2d');
-        _this['$' + canvasName] = $(_this[canvasName]);
-        
-        _this['$' + canvasName]
-        .attr('class', 'wPaint-canvas' + (name ? '-' + name : ''))
-        .attr('width', _this.width + 'px')
-        .attr('height', _this.height + 'px')
-        .css({position: 'absolute', left: 0, top: 0});
-
-        _this.$el.append(_this['$' + canvasName]);
-
-        return _this['$' + canvasName];
-      }
-
-      // event functions
-      function canvasMousedown(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        _this.draw = true;
-        e.canvasEvent = 'down';
-        _this._closeSelectBoxes();
-        _this._callShapeFunc.apply(_this, [e]);
-      }
-
-      function documentMousemove(e) {
-        if (_this.draw) {
-          e.canvasEvent = 'move';
-          _this._callShapeFunc.apply(_this, [e]);
-        }
-      }
-
-      function documentMouseup(e) {
-
-        //make sure we are in draw mode otherwise this will fire on any mouse up.
-        if (_this.draw) {
-          _this.draw = false;
-          e.canvasEvent = 'up';
-          _this._callShapeFunc.apply(_this, [e]);
-        }
-      }
-
-      // create bg canvases
-      createCanvas('bg');
-      
-      // create drawing canvas
-      createCanvas('')
-      .on('mousedown', canvasMousedown)
-      .bindMobileEvents();
-      
-      // create temp canvas for drawing shapes temporarily
-      // before transfering to main canvas
-      createCanvas('temp').hide();
-      
-      // event handlers for drawing
-      $(document)
-      .on('mousemove', documentMousemove)
-      .on('mousedown', $.proxy(this._closeSelectBoxes, this))
-      .on('mouseup', documentMouseup);
-
-      // we will need to preset theme to get proper dimensions
-      // when creating menus which will be appended after this
-      this.setTheme(this.options.theme);
-    },
-
-    _init: function () {
-      var index = null,
-          setFuncName = null;
-
-      this.init = true;
-
-      // run any set functions if they exist
-      for (index in this.options) {
-        setFuncName = 'set' + index.capitalize();
-        if (this[setFuncName]) { this[setFuncName](this.options[index]); }
-      }
-
-      // fix menus
-      this._fixMenus();
-
-      // initialize active menu button
-      this.menus.primary._getIcon(this.options.mode).trigger('click');      
-    },
-
-    resize: function () {
-      var bg = this.getBg(),
-          image = this.getImage();
-
-      this.width = this.$el.width();
-      this.height = this.$el.height();
-
-      this.canvasBg.width = this.width;
-      this.canvasBg.height = this.height;
-      this.canvas.width = this.width;
-      this.canvas.height = this.height;
-
-      if (this.ctxBgResize === false) {
-        this.ctxBgResize = true;
-        this.setBg(bg, true);
-      }
-
-      if (this.ctxResize === false) {
-        this.ctxResize = true;
-        this.setImage(image, '', true, true);
-      }
-    },
-
-    /************************************
-     * setters
-     ************************************/
-    setTheme: function (theme) {
-      var i, ii;
-
-      theme = theme.split(' ');
-
-      // remove anything beginning with "wPaint-theme-" first
-      this.$el.attr('class', (this.$el.attr('class') || '').replace(/wPaint-theme-.+\s|wPaint-theme-.+$/, ''));
-      
-      // add each theme
-      for (i = 0, ii = theme.length; i < ii; i++) {
-        this.$el.addClass('wPaint-theme-' + theme[i]);
-      }
-    },
-
-    setMode: function (mode) {
-      this.setCursor(mode);
-      this.previousMode = this.options.mode;
-      this.options.mode = mode;
-    },
-
-    setImage: function (img, ctxType, resize, notUndo) {
-      if (!img) { return true; }
-
-      var _this = this,
-          myImage = null,
-          ctx = '';
-
-      function loadImage() {
-        var ratio = 1, xR = 0, yR = 0, x = 0, y = 0, w = myImage.width, h = myImage.height;
-
-        if (!resize) {
-          // get width/height
-          if (myImage.width > _this.width || myImage.height > _this.height || _this.options.imageStretch) {
-            xR = _this.width / myImage.width;
-            yR = _this.height / myImage.height;
-
-            ratio = xR < yR ? xR : yR;
-
-            w = myImage.width * ratio;
-            h = myImage.height * ratio;
-          }
-
-          // get left/top (centering)
-          x = (_this.width - w) / 2;
-          y = (_this.height - h) / 2;
-        }
-
-        ctx.clearRect(0, 0, _this.width, _this.height);
-        ctx.drawImage(myImage, x, y, w, h);
-
-        _this[ctxType + 'Resize'] = false;
-
-        // Default is to run the undo.
-        // If it's not to be run set it the flag to true.
-        if (!notUndo) {
-          _this._addUndo();
-        }
-      }
-      
-      ctxType = 'ctx' + (ctxType || '').capitalize();
-      ctx = this[ctxType];
-      
-      if (window.rgbHex(img)) {
-        ctx.clearRect(0, 0, this.width, this.height);
-        ctx.fillStyle = img;
-        ctx.rect(0, 0, this.width, this.height);
-        ctx.fill();
-      }
-      else {
-        myImage = new Image();
-        myImage.src = img.toString();
-        $(myImage).load(loadImage);
-      }
-    },
-
-    setBg: function (img, resize) {
-      if (!img) { return true; }
-      
-      this.setImage(img, 'bg', resize, true);
-    },
-
-    setCursor: function (cursor) {
-      cursor = $.fn.wPaint.cursors[cursor] || $.fn.wPaint.cursors['default'];
-
-      this.$el.css('cursor', 'url("' + this.options.path + cursor.path + '") ' + cursor.left + ' ' + cursor.top + ', default');
-    },
-
-    setMenuOrientation: function (orientation) {
-      $.each(this.menus.all, function (i, menu) {
-        menu.options.aligment = orientation;
-        menu.setAlignment(orientation);
-      });
-    },
-
-    getImage: function (withBg) {
-      var canvasSave = document.createElement('canvas'),
-          ctxSave = canvasSave.getContext('2d');
-
-      withBg = withBg === false ? false : true;
-
-      $(canvasSave)
-      .css({display: 'none', position: 'absolute', left: 0, top: 0})
-      .attr('width', this.width)
-      .attr('height', this.height);
-
-      if (withBg) { ctxSave.drawImage(this.canvasBg, 0, 0); }
-      ctxSave.drawImage(this.canvas, 0, 0);
-
-      return canvasSave.toDataURL();
-    },
-
-    getBg: function () {
-      return this.canvasBg.toDataURL();
-    },
-
-    /************************************
-     * prompts
-     ************************************/
-    _displayStatus: function (msg) {
-      var _this = this;
-
-      if (!this.$status) {
-        this.$status = $('<div class="wPaint-status"></div>');
-        this.$el.append(this.$status);
-      }
-
-      this.$status.html(msg);
-      clearTimeout(this.displayStatusTimer);
-
-      this.$status.fadeIn(500, function () {
-        _this.displayStatusTimer = setTimeout(function () { _this.$status.fadeOut(500); }, 1500);
-      });
-    },
-
-    _showModal: function ($content) {
-      var _this = this,
-          $bg = this.$el.children('.wPaint-modal-bg'),
-          $modal = this.$el.children('.wPaint-modal');
-
-      function modalFadeOut() {
-          $bg.remove();
-          $modal.remove();
-          _this._createModal($content);
-        }
-
-      if ($bg.length) {
-        $modal.fadeOut(500, modalFadeOut);
-      }
-      else {
-        this._createModal($content);
-      }
-    },
-
-    _createModal: function ($content) {
-      $content = $('<div class="wPaint-modal-content"></div>').append($content.children());
-
-      var $bg = $('<div class="wPaint-modal-bg"></div>'),
-          $modal = $('<div class="wPaint-modal"></div>'),
-          $holder = $('<div class="wPaint-modal-holder"></div>'),
-          $close = $('<div class="wPaint-modal-close">X</div>');
-
-      function modalFadeOut() {
-        $bg.remove();
-        $modal.remove();
-      }
-
-      function modalClick() {
-        $modal.fadeOut(500, modalFadeOut);
-      }
-
-      $close.on('click', modalClick);
-      $modal.append($holder.append($content)).append($close);
-      this.$el.append($bg).append($modal);
-
-      $modal.css({
-        left: (this.$el.outerWidth() / 2) - ($modal.outerWidth(true) / 2),
-        top: (this.$el.outerHeight() / 2) - ($modal.outerHeight(true) / 2)
-      });
-
-      $modal.fadeIn(500);
-    },
-
-    /************************************
-     * menu helpers
-     ************************************/
-    _createMenu: function (name, options) {
-      options = options || {};
-      options.alignment = this.options.menuOrientation;
-      options.handle = this.options.menuHandle;
-      
-      return new Menu(this, name, options);
-    },
-
-    _fixMenus: function () {
-      var _this = this,
-          $selectHolder = null;
-
-      function selectEach(i, el) {
-        var $el = $(el),
-            $select = $el.clone();
-
-        $select.appendTo(_this.$el);
-
-        if ($select.outerHeight() === $select.get(0).scrollHeight) {
-          $el.css({overflowY: 'auto'});
-        }
-
-        $select.remove();
-      }
-
-      // TODO: would be nice to do this better way
-      // for some reason when setting overflowY:auto with dynamic content makes the width act up
-      for (var key in this.menus.all) {
-        $selectHolder = _this.menus.all[key].$menu.find('.wPaint-menu-select-holder');
-        if ($selectHolder.length) { $selectHolder.children().each(selectEach); }
-      }
-    },
-
-    _closeSelectBoxes: function (item) {
-      var key, $selectBoxes;
-
-      for (key in this.menus.all) {
-        $selectBoxes = this.menus.all[key].$menuHolder.children('.wPaint-menu-icon-select');
-
-        // hide any open select menus excluding the current menu
-        // this is to avoid the double toggle since there are some
-        // other events running here
-        if (item) { $selectBoxes = $selectBoxes.not('.wPaint-menu-icon-name-' + item.name); }
-
-        $selectBoxes.children('.wPaint-menu-select-holder').hide();
-      }
-    },
-
-    /************************************
-     * events
-     ************************************/
-    //_imageOnload: function () {
-    //  /* a blank helper function for post image load calls on canvas - can be extended by other plugins using the setImage called */
-    //},
-
-    _callShapeFunc: function (e) {
-
-      // TODO: this is where issues with mobile offsets are probably off
-      var canvasOffset = this.$canvas.offset(),
-          canvasEvent = e.canvasEvent.capitalize(),
-          func = '_draw' + this.options.mode.capitalize() + canvasEvent;
-
-      // update offsets here since we are detecting mouseup on $(document) not on the canvas
-      e.pageX = Math.floor(e.pageX - canvasOffset.left);
-      e.pageY = Math.floor(e.pageY - canvasOffset.top);
-
-      // call drawing func
-      if (this[func]) { this[func].apply(this, [e]); }
-
-      // run callback if set
-      if (this.options['draw' + canvasEvent]) { this.options['_draw' + canvasEvent].apply(this, [e]); }
-
-      // run options (user) callback if set
-      if (canvasEvent === 'Down' && this.options.onShapeDown) { this.options.onShapeDown.apply(this, [e]); }
-      else if (canvasEvent === 'Move' && this.options.onShapeMove) { this.options.onShapeMove.apply(this, [e]); }
-      else if (canvasEvent === 'Up' && this.options.onShapeUp) { this.options.onShapeUp.apply(this, [e]); }
-    },
-
-    _stopPropagation: function (e) {
-      e.stopPropagation();
-    },
-
-    /************************************
-     * shape helpers
-     ************************************/
-    _drawShapeDown: function (e) {
-      this.$canvasTemp
-      .css({left: e.PageX, top: e.PageY})
-      .attr('width', 0)
-      .attr('height', 0)
-      .show();
-
-      this.canvasTempLeftOriginal = e.pageX;
-      this.canvasTempTopOriginal = e.pageY;
-    },
-    
-    _drawShapeMove: function (e, factor) {
-      var xo = this.canvasTempLeftOriginal,
-          yo = this.canvasTempTopOriginal;
-
-      // we may need these in other funcs, so we'll just pass them along with the event
-      factor = factor || 2;
-      e.left = (e.pageX < xo ? e.pageX : xo);
-      e.top = (e.pageY < yo ? e.pageY : yo);
-      e.width = Math.abs(e.pageX - xo);
-      e.height = Math.abs(e.pageY - yo);
-      e.x = this.options.lineWidth / 2 * factor;
-      e.y = this.options.lineWidth / 2 * factor;
-      e.w = e.width - this.options.lineWidth * factor;
-      e.h = e.height - this.options.lineWidth * factor;
-
-      $(this.canvasTemp)
-      .css({left: e.left, top: e.top})
-      .attr('width', e.width)
-      .attr('height', e.height);
-      
-      // store these for later to use in our "up" call
-      this.canvasTempLeftNew = e.left;
-      this.canvasTempTopNew = e.top;
-
-      factor = factor || 2;
-
-      // TODO: set this globally in _drawShapeDown (for some reason colors are being reset due to canvas resize - is there way to permanently set it)
-      this.ctxTemp.fillStyle = this.options.fillStyle;
-      this.ctxTemp.strokeStyle = this.options.strokeStyle;
-      this.ctxTemp.lineWidth = this.options.lineWidth * factor;
-    },
-    
-    _drawShapeUp: function () {
-      this.ctx.drawImage(this.canvasTemp, this.canvasTempLeftNew, this.canvasTempTopNew);
-      this.$canvasTemp.hide();
-    },
-
-    /****************************************
-     * dropper
-     ****************************************/
-    _drawDropperDown: function (e) {
-      var pos = {x: e.pageX, y: e.pageY},
-          pixel = this._getPixel(this.ctx, pos),
-          color = null;
-
-      // if we get no color try getting from the background
-      //if(pixel.r === 0 && pixel.g === 0 && pixel.b === 0 && pixel.a === 0) {
-      //  imageData = this.ctxBg.getImageData(0, 0, this.width, this.height)
-      //  pixel = this._getPixel(imageData, pos);
-      //}
-
-      color = 'rgba(' + [ pixel.r, pixel.g, pixel.b, pixel.a ].join(',') + ')';
-
-      // set color from dropper here
-      this.options[this.dropper] = color;
-      this.menus.active._getIcon(this.dropper).wColorPicker('color', color);
-    },
-
-    _drawDropperUp: function () {
-      this.setMode(this.previousMode);
-    },
-
-    // get pixel data represented as RGBa color from pixel array.
-    _getPixel: function (ctx, pos) {
-      var imageData = ctx.getImageData(0, 0, this.width, this.height),
-          pixelArray = imageData.data,
-          base = ((pos.y * imageData.width) + pos.x) * 4;
-      
-      return {
-        r: pixelArray[base],
-        g: pixelArray[base + 1],
-        b: pixelArray[base + 2],
-        a: pixelArray[base + 3]
-      };
-    }
-  };
-
-  /************************************************************************
+    /************************************************************************
    * Menu class
    ************************************************************************/
   function Menu(wPaint, name, options) {
@@ -1066,6 +563,511 @@
       }
     }
   };
+  
+  /************************************************************************
+   * Paint class
+   ************************************************************************/
+  function Paint(el, options) {
+    this.$el = $(el);
+    this.options = options;
+    this.init = false;
+
+    this.menus = {primary: null, active: null, all: {}};
+    this.previousMode = null;
+    this.width = this.$el.width();
+    this.height = this.$el.height();
+
+    this.ctxBgResize = false;
+    this.ctxResize = false;
+
+    this.generate();
+    this._init();
+  }
+  
+  Paint.prototype = {
+    generate: function () {
+      if (this.init) { return this; }
+
+      var _this = this;
+
+      // automatically appends each canvas
+      // also returns the jQuery object so we can chain events right off the function call.
+      // for the tempCanvas we will be setting some extra attributes but don't won't matter
+      // as they will be reset on mousedown anyway.
+      function createCanvas(name) {
+        var newName = (name ? name.capitalize() : ''),
+            canvasName = 'canvas' + newName,
+            ctxName = 'ctx' + newName;
+
+        _this[canvasName] = document.createElement('canvas');
+        _this[ctxName] = _this[canvasName].getContext('2d');
+        _this['$' + canvasName] = $(_this[canvasName]);
+        
+        _this['$' + canvasName]
+        .attr('class', 'wPaint-canvas' + (name ? '-' + name : ''))
+        .attr('width', _this.width + 'px')
+        .attr('height', _this.height + 'px')
+        .css({position: 'absolute', left: 0, top: 0});
+
+        _this.$el.append(_this['$' + canvasName]);
+
+        return _this['$' + canvasName];
+      }
+
+      // event functions
+      function canvasMousedown(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        _this.draw = true;
+        e.canvasEvent = 'down';
+        _this._closeSelectBoxes();
+        _this._callShapeFunc.apply(_this, [e]);
+      }
+
+      function documentMousemove(e) {
+        if (_this.draw) {
+          e.canvasEvent = 'move';
+          _this._callShapeFunc.apply(_this, [e]);
+        }
+      }
+
+      function documentMouseup(e) {
+
+        //make sure we are in draw mode otherwise this will fire on any mouse up.
+        if (_this.draw) {
+          _this.draw = false;
+          e.canvasEvent = 'up';
+          _this._callShapeFunc.apply(_this, [e]);
+        }
+      }
+
+      // create bg canvases
+      createCanvas('bg');
+      
+      // create drawing canvas
+      createCanvas('')
+      .on('mousedown', canvasMousedown)
+      .bindMobileEvents();
+      
+      // create temp canvas for drawing shapes temporarily
+      // before transfering to main canvas
+      createCanvas('temp').hide();
+      
+      // event handlers for drawing
+      $(document)
+      .on('mousemove', documentMousemove)
+      .on('mousedown', $.proxy(this._closeSelectBoxes, this))
+      .on('mouseup', documentMouseup);
+
+      // we will need to preset theme to get proper dimensions
+      // when creating menus which will be appended after this
+      this.setTheme(this.options.theme);
+    },
+
+    _init: function () {
+      var index = null,
+          setFuncName = null;
+
+      this.init = true;
+
+      // run any set functions if they exist
+      for (index in this.options) {
+        setFuncName = 'set' + index.capitalize();
+        if (this[setFuncName]) { this[setFuncName](this.options[index]); }
+      }
+
+      // fix menus
+      this._fixMenus();
+
+      // initialize active menu button
+      this.menus.primary._getIcon(this.options.mode).trigger('click');      
+    },
+
+    resize: function () {
+      var bg = this.getBg(),
+          image = this.getImage();
+
+      this.width = this.$el.width();
+      this.height = this.$el.height();
+
+      this.canvasBg.width = this.width;
+      this.canvasBg.height = this.height;
+      this.canvas.width = this.width;
+      this.canvas.height = this.height;
+
+      if (this.ctxBgResize === false) {
+        this.ctxBgResize = true;
+        this.setBg(bg, true);
+      }
+
+      if (this.ctxResize === false) {
+        this.ctxResize = true;
+        this.setImage(image, '', true, true);
+      }
+    },
+
+    /************************************
+     * setters
+     ************************************/
+    setTheme: function (theme) {
+      var i, ii;
+
+      theme = theme.split(' ');
+
+      // remove anything beginning with "wPaint-theme-" first
+      this.$el.attr('class', (this.$el.attr('class') || '').replace(/wPaint-theme-.+\s|wPaint-theme-.+$/, ''));
+      
+      // add each theme
+      for (i = 0, ii = theme.length; i < ii; i++) {
+        this.$el.addClass('wPaint-theme-' + theme[i]);
+      }
+    },
+
+    setMode: function (mode) {
+      this.setCursor(mode);
+      this.previousMode = this.options.mode;
+      this.options.mode = mode;
+    },
+
+    setImage: function (img, ctxType, resize, notUndo) {
+      if (!img) { return true; }
+
+      var _this = this,
+          myImage = null,
+          ctx = '';
+
+      function loadImage() {
+        var ratio = 1, xR = 0, yR = 0, x = 0, y = 0, w = myImage.width, h = myImage.height;
+
+        if (!resize) {
+          // get width/height
+          if (myImage.width > _this.width || myImage.height > _this.height || _this.options.imageStretch) {
+            xR = _this.width / myImage.width;
+            yR = _this.height / myImage.height;
+
+            ratio = xR < yR ? xR : yR;
+
+            w = myImage.width * ratio;
+            h = myImage.height * ratio;
+          }
+
+          // get left/top (centering)
+          x = (_this.width - w) / 2;
+          y = (_this.height - h) / 2;
+        }
+
+        ctx.clearRect(0, 0, _this.width, _this.height);
+        ctx.drawImage(myImage, x, y, w, h);
+
+        _this[ctxType + 'Resize'] = false;
+
+        // Default is to run the undo.
+        // If it's not to be run set it the flag to true.
+        if (!notUndo) {
+          _this._addUndo();
+        }
+      }
+      
+      ctxType = 'ctx' + (ctxType || '').capitalize();
+      ctx = this[ctxType];
+      
+      if (window.rgbHex(img)) {
+        ctx.clearRect(0, 0, this.width, this.height);
+        ctx.fillStyle = img;
+        ctx.rect(0, 0, this.width, this.height);
+        ctx.fill();
+      }
+      else {
+        myImage = new Image();
+        myImage.src = img.toString();
+        $(myImage).load(loadImage);
+      }
+    },
+
+    setBg: function (img, resize) {
+      if (!img) { return true; }
+      
+      this.setImage(img, 'bg', resize, true);
+    },
+
+    setCursor: function (cursor) {
+      cursor = $.fn.wPaint.cursors[cursor] || $.fn.wPaint.cursors['default'];
+
+      this.$el.css('cursor', 'url("' + this.options.path + cursor.path + '") ' + cursor.left + ' ' + cursor.top + ', default');
+    },
+
+    setMenuOrientation: function (orientation) {
+      $.each(this.menus.all, function (i, menu) {
+        menu.options.aligment = orientation;
+        menu.setAlignment(orientation);
+      });
+    },
+
+    getImage: function (withBg) {
+      var canvasSave = document.createElement('canvas'),
+          ctxSave = canvasSave.getContext('2d');
+
+      withBg = withBg === false ? false : true;
+
+      $(canvasSave)
+      .css({display: 'none', position: 'absolute', left: 0, top: 0})
+      .attr('width', this.width)
+      .attr('height', this.height);
+
+      if (withBg) { ctxSave.drawImage(this.canvasBg, 0, 0); }
+      ctxSave.drawImage(this.canvas, 0, 0);
+
+      return canvasSave.toDataURL();
+    },
+
+    getBg: function () {
+      return this.canvasBg.toDataURL();
+    },
+
+    /************************************
+     * prompts
+     ************************************/
+    _displayStatus: function (msg) {
+      var _this = this;
+
+      if (!this.$status) {
+        this.$status = $('<div class="wPaint-status"></div>');
+        this.$el.append(this.$status);
+      }
+
+      this.$status.html(msg);
+      clearTimeout(this.displayStatusTimer);
+
+      this.$status.fadeIn(500, function () {
+        _this.displayStatusTimer = setTimeout(function () { _this.$status.fadeOut(500); }, 1500);
+      });
+    },
+
+    _showModal: function ($content) {
+      var _this = this,
+          $bg = this.$el.children('.wPaint-modal-bg'),
+          $modal = this.$el.children('.wPaint-modal');
+
+      function modalFadeOut() {
+          $bg.remove();
+          $modal.remove();
+          _this._createModal($content);
+        }
+
+      if ($bg.length) {
+        $modal.fadeOut(500, modalFadeOut);
+      }
+      else {
+        this._createModal($content);
+      }
+    },
+
+    _createModal: function ($content) {
+      $content = $('<div class="wPaint-modal-content"></div>').append($content.children());
+
+      var $bg = $('<div class="wPaint-modal-bg"></div>'),
+          $modal = $('<div class="wPaint-modal"></div>'),
+          $holder = $('<div class="wPaint-modal-holder"></div>'),
+          $close = $('<div class="wPaint-modal-close">X</div>');
+
+      function modalFadeOut() {
+        $bg.remove();
+        $modal.remove();
+      }
+
+      function modalClick() {
+        $modal.fadeOut(500, modalFadeOut);
+      }
+
+      $close.on('click', modalClick);
+      $modal.append($holder.append($content)).append($close);
+      this.$el.append($bg).append($modal);
+
+      $modal.css({
+        left: (this.$el.outerWidth() / 2) - ($modal.outerWidth(true) / 2),
+        top: (this.$el.outerHeight() / 2) - ($modal.outerHeight(true) / 2)
+      });
+
+      $modal.fadeIn(500);
+    },
+
+    /************************************
+     * menu helpers
+     ************************************/
+    _createMenu: function (name, options) {
+      options = options || {};
+      options.alignment = this.options.menuOrientation;
+      options.handle = this.options.menuHandle;
+      
+      return new Menu(this, name, options);
+    },
+
+    _fixMenus: function () {
+      var _this = this,
+          $selectHolder = null;
+
+      function selectEach(i, el) {
+        var $el = $(el),
+            $select = $el.clone();
+
+        $select.appendTo(_this.$el);
+
+        if ($select.outerHeight() === $select.get(0).scrollHeight) {
+          $el.css({overflowY: 'auto'});
+        }
+
+        $select.remove();
+      }
+
+      // TODO: would be nice to do this better way
+      // for some reason when setting overflowY:auto with dynamic content makes the width act up
+      for (var key in this.menus.all) {
+        $selectHolder = _this.menus.all[key].$menu.find('.wPaint-menu-select-holder');
+        if ($selectHolder.length) { $selectHolder.children().each(selectEach); }
+      }
+    },
+
+    _closeSelectBoxes: function (item) {
+      var key, $selectBoxes;
+
+      for (key in this.menus.all) {
+        $selectBoxes = this.menus.all[key].$menuHolder.children('.wPaint-menu-icon-select');
+
+        // hide any open select menus excluding the current menu
+        // this is to avoid the double toggle since there are some
+        // other events running here
+        if (item) { $selectBoxes = $selectBoxes.not('.wPaint-menu-icon-name-' + item.name); }
+
+        $selectBoxes.children('.wPaint-menu-select-holder').hide();
+      }
+    },
+
+    /************************************
+     * events
+     ************************************/
+    //_imageOnload: function () {
+    //  /* a blank helper function for post image load calls on canvas - can be extended by other plugins using the setImage called */
+    //},
+
+    _callShapeFunc: function (e) {
+
+      // TODO: this is where issues with mobile offsets are probably off
+      var canvasOffset = this.$canvas.offset(),
+          canvasEvent = e.canvasEvent.capitalize(),
+          func = '_draw' + this.options.mode.capitalize() + canvasEvent;
+
+      // update offsets here since we are detecting mouseup on $(document) not on the canvas
+      e.pageX = Math.floor(e.pageX - canvasOffset.left);
+      e.pageY = Math.floor(e.pageY - canvasOffset.top);
+
+      // call drawing func
+      if (this[func]) { this[func].apply(this, [e]); }
+
+      // run callback if set
+      if (this.options['draw' + canvasEvent]) { this.options['_draw' + canvasEvent].apply(this, [e]); }
+
+      // run options (user) callback if set
+      if (canvasEvent === 'Down' && this.options.onShapeDown) { this.options.onShapeDown.apply(this, [e]); }
+      else if (canvasEvent === 'Move' && this.options.onShapeMove) { this.options.onShapeMove.apply(this, [e]); }
+      else if (canvasEvent === 'Up' && this.options.onShapeUp) { this.options.onShapeUp.apply(this, [e]); }
+    },
+
+    _stopPropagation: function (e) {
+      e.stopPropagation();
+    },
+
+    /************************************
+     * shape helpers
+     ************************************/
+    _drawShapeDown: function (e) {
+      this.$canvasTemp
+      .css({left: e.PageX, top: e.PageY})
+      .attr('width', 0)
+      .attr('height', 0)
+      .show();
+
+      this.canvasTempLeftOriginal = e.pageX;
+      this.canvasTempTopOriginal = e.pageY;
+    },
+    
+    _drawShapeMove: function (e, factor) {
+      var xo = this.canvasTempLeftOriginal,
+          yo = this.canvasTempTopOriginal;
+
+      // we may need these in other funcs, so we'll just pass them along with the event
+      factor = factor || 2;
+      e.left = (e.pageX < xo ? e.pageX : xo);
+      e.top = (e.pageY < yo ? e.pageY : yo);
+      e.width = Math.abs(e.pageX - xo);
+      e.height = Math.abs(e.pageY - yo);
+      e.x = this.options.lineWidth / 2 * factor;
+      e.y = this.options.lineWidth / 2 * factor;
+      e.w = e.width - this.options.lineWidth * factor;
+      e.h = e.height - this.options.lineWidth * factor;
+
+      $(this.canvasTemp)
+      .css({left: e.left, top: e.top})
+      .attr('width', e.width)
+      .attr('height', e.height);
+      
+      // store these for later to use in our "up" call
+      this.canvasTempLeftNew = e.left;
+      this.canvasTempTopNew = e.top;
+
+      factor = factor || 2;
+
+      // TODO: set this globally in _drawShapeDown (for some reason colors are being reset due to canvas resize - is there way to permanently set it)
+      this.ctxTemp.fillStyle = this.options.fillStyle;
+      this.ctxTemp.strokeStyle = this.options.strokeStyle;
+      this.ctxTemp.lineWidth = this.options.lineWidth * factor;
+    },
+    
+    _drawShapeUp: function () {
+      this.ctx.drawImage(this.canvasTemp, this.canvasTempLeftNew, this.canvasTempTopNew);
+      this.$canvasTemp.hide();
+    },
+
+    /****************************************
+     * dropper
+     ****************************************/
+    _drawDropperDown: function (e) {
+      var pos = {x: e.pageX, y: e.pageY},
+          pixel = this._getPixel(this.ctx, pos),
+          color = null;
+
+      // if we get no color try getting from the background
+      //if(pixel.r === 0 && pixel.g === 0 && pixel.b === 0 && pixel.a === 0) {
+      //  imageData = this.ctxBg.getImageData(0, 0, this.width, this.height)
+      //  pixel = this._getPixel(imageData, pos);
+      //}
+
+      color = 'rgba(' + [ pixel.r, pixel.g, pixel.b, pixel.a ].join(',') + ')';
+
+      // set color from dropper here
+      this.options[this.dropper] = color;
+      this.menus.active._getIcon(this.dropper).wColorPicker('color', color);
+    },
+
+    _drawDropperUp: function () {
+      this.setMode(this.previousMode);
+    },
+
+    // get pixel data represented as RGBa color from pixel array.
+    _getPixel: function (ctx, pos) {
+      var imageData = ctx.getImageData(0, 0, this.width, this.height),
+          pixelArray = imageData.data,
+          base = ((pos.y * imageData.width) + pos.x) * 4;
+      
+      return {
+        r: pixelArray[base],
+        g: pixelArray[base + 1],
+        b: pixelArray[base + 2],
+        a: pixelArray[base + 3]
+      };
+    }
+  };
+
+
 
   /************************************************************************
    * wPaint
