@@ -2,7 +2,7 @@
 
   // setup menu
   $.fn.wPaint.menus.text = {
-    img: 'plugins/text/img/icons-menu-text.png',
+    img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAASCAMAAAAnpt3PAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAArrAAAK6wGCiw1aAAAAFnRFWHRDcmVhdGlvbiBUaW1lADA4LzEwLzEzkEDgTAAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAADkUExURUxMTP///0xMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTO2jd1cAAABLdFJOUwAAAgUJDA8TFxobHyQoLTE0Njg7QEVGR0pPWl9kaGpsb3p7hYiKj5CVl5qcn6SmqrG4ub3BwsnLzNPb3+Ll5ufp7O/x8/b5+vv8/o2LDuoAAAEpSURBVCjPndPZUsJQDAbgvxVpPSBYPW6AuBYVRQTErYhAqUj/938fLzq2acelQ+7OTL5JTjKBsVLAMAxLKVXROxYA/JJmKqWUDcBWSlkRcydk4AX0DyQ7GpHv5+vRY+3Q45MGoDvsVCMGLFgCmgyrslqdw6QpNFkGAGAGfLOACoDHrmSn7KaYipiXZQP2JGvxMhebsSbZHRs5WHnAWzmSjee37X8ZSY61ZHvzvpmjWqkV0hXsjG0j198aDO0k84YXabYJADAnWWYuWU8y73ksWYVXAIBaN8sQCGY+zvclw0t4AsCZ2llmySa3Jg8qxQq9cOH5ryXEzFyyAlgjtpORuLw2UgwoOLoIxMz1yU9vHE7r8QJ0/4Mc7grIJMThVLVT/ONwfrq3FeIL3LIwQskEl6kAAAAASUVORK5CYII=',
     items: {
       bold: {
         icon: 'toggle',
@@ -180,7 +180,7 @@
         this.$textCalc.html('');
         lastj = 0;
         
-        for (j = 0, jj = lines[0].length; j < jj; j++) {
+        for (j = 0, jj = lines[i].length; j < jj; j++) {
           width = this.$textCalc.append(lines[i][j]).width();
           
           if (width > textInputWidth) {

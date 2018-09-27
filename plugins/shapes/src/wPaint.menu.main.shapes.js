@@ -1,5 +1,5 @@
 (function ($) {
-  var img = 'plugins/shapes/img/icons-menu-main-shapes.png';
+  var img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH4AAAASCAMAAACqy5qbAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAArDAAAKwwE0KSSrAAAAFnRFWHRDcmVhdGlvbiBUaW1lADA4LzExLzEzKPyHKQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAABLUExURf///1RUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFOV5dMAAAAYdFJOUwAQICgwQFBgcICQn6CwwNDa4PDx+Pn8/heroYkAAAE0SURBVEjHtZbRsoIwDES3iBQqUKmi+f8vvQ9Q6IbOHcYpectOzFloSQTKhvFWKZX3FSt2muw/LUQFcHt+5i0+z9vaZhARGajVIFJTsyaIhIbgIiLRgHHMciaDf7DwWJ4zpt5svVsRCenDrt0dw3cDTsNcBv9i4QXAhD0PkX9XdrTFHR4NyCEy+C8LXwA+FfxKWy2N0U1q8Q5MuvN0Dv9m4Q1YVpaT3Cz1AICOa7ozrCx+ZmEGRlZGdY4WhxKRsRz+WMMvpAGCrgmX4ql7AHpd01+Kd/z96OshYi/FG893wegac+3Vq9UgGLhm+Pnmn/zw2pjWnC7R/ow/OXbiO2nXZcO/qnJjp+jQXcQ+ztyDxePQLbtyGko7Hnq5lVN44ToJ+8Kt0y51duGWDp/u9ik95tzfjT96FZC3FpcXtAAAAABJRU5ErkJggg==';
 
   // extend menu
   $.extend(true, $.fn.wPaint.menus.main.items, {
@@ -200,45 +200,6 @@
     },
 
     _drawHexagonUp: function (e) {
-      this._drawShapeUp(e);
-      this._addUndo();
-    },
-
-    /****************************************
-     * arrow
-     ****************************************/
-    _drawArrowDown: function (e) { this._drawShapeDown(e); },
-
-    _drawArrowMove: function (e) {
-      this._drawShapeMove(e);
-
-      var xo = this.canvasTempLeftOriginal;
-      var yo = this.canvasTempTopOriginal;
-
-      if (e.pageX < xo) { e.x = e.x + e.w; e.w = e.w * - 1; }
-      if (e.pageY < yo) { e.y = e.y + e.h; e.h = e.h * - 1; }
-
-      var lx = e.x + e.w;
-      var ly = e.y + e.h;
-
-      var angle = Math.atan2(e.h, e.w);
-
-      this.ctxTemp.beginPath();
-      this.ctxTemp.moveTo(e.x, e.y);
-      this.ctxTemp.lineTo(lx, ly);
-      this.ctxTemp.stroke();
-
-      this.ctxTemp.beginPath();
-      this.ctxTemp.moveTo(lx, ly);
-      this.ctxTemp.lineTo(lx - 10 * Math.cos(angle - Math.PI / 7), ly - 10 * Math.sin(angle - Math.PI / 7));
-      this.ctxTemp.lineTo(lx - 10 * Math.cos(angle + Math.PI / 7), ly - 10 * Math.sin(angle + Math.PI / 7));
-      this.ctxTemp.lineTo(lx, ly);
-      this.ctxTemp.lineTo(lx - 10 * Math.cos(angle - Math.PI / 7), ly - 10 * Math.sin(angle - Math.PI / 7));
-      this.ctxTemp.closePath();
-      this.ctxTemp.stroke();
-    },
-
-    _drawArrowUp: function (e) {
       this._drawShapeUp(e);
       this._addUndo();
     }

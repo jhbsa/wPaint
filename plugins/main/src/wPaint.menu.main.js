@@ -2,8 +2,63 @@
 
   // setup menu
   $.fn.wPaint.menus.main = {
-    img: 'plugins/main/img/icons-menu-main.png',
+    img: 'data:image/png;base64,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',
     items: {
+      lineWidth: {
+        icon: 'select',
+        title: 'Stroke Width',
+        range: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        value: 2,
+        callback: function (width) { this.setLineWidth(width); }
+      },
+      strokeStyle: {
+        icon: 'colorPicker',
+        title: 'Stroke Color',
+        callback: function (color) { this.setStrokeStyle(color); }
+      },
+      pencil: {
+        icon: 'activate',
+        group: 'tools',
+        title: 'Pencil',
+        index: 6,
+        callback: function () { this.setMode('pencil'); }
+      },
+      arrow: {
+        icon: 'activate',
+        img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Mjg1QTgzMjFDMjZFMTFFODk2RjFBRTAyQTU0M0QyOUQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Mjg1QTgzMjJDMjZFMTFFODk2RjFBRTAyQTU0M0QyOUQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoyODVBODMxRkMyNkUxMUU4OTZGMUFFMDJBNTQzRDI5RCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoyODVBODMyMEMyNkUxMUU4OTZGMUFFMDJBNTQzRDI5RCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgiIIiIAAAFlSURBVHjalNTPKwRhHMfxZ2c3yYEoypaDlINViqSQi6Pz/AFOjv4DJznIjZMLTv4CpCgHpFB+FAkHSUiJjWXzY70nn6eexq7Z+dSreXZn+s73+c7sJnzfL5jffCMhbrJYxgy2TIl4oXWiyDXVGEKH+SeeOnGTw5fz+QMvoZv+SapEF59Ian2OCayUWyindRUK6nQbk1jDW1Qhm0pnm3boFTjW9kzUjNx1KnS+CwtoilPIaMg7movRnHoxj8GorWU1l5xmMqtz00jrmgGM4QGnxbYadLSEO1w6g93AKK6ca/t0k+ZiHSUzmcwtxyOsYxXvEtw5jzbU6qaN6MYNLsKFrjke4ESP3c2eOg26qVGxYPAt2MejfXk9E51NjIQ66MEcWt2Oogrl1dUz2lGnBhpU8B5n5RSyOdTL2e/MLK2unjwTL7sY1oOw6Qz+YuIWetXMxp2HE/yU6uMWslnEVLAl+8WPAAMAjTdSj1s/nJsAAAAASUVORK5CYII=',
+        index: 0,
+        group: 'tools',
+        title: 'Arrow',
+        callback: function () { this.setMode('arrow'); }
+      },
+      line: {
+        icon: 'activate',
+        group: 'tools',
+        title: 'Line',
+        index: 5,
+        callback: function () { this.setMode('line'); }
+      },
+      ellipse: {
+        icon: 'activate',
+        group: 'tools',
+        title: 'Ellipse',
+        index: 4,
+        callback: function () { this.setMode('ellipse'); }
+      },
+      rectangle: {
+        icon: 'activate',
+        group: 'tools',
+        title: 'Rectangle',
+        index: 3,
+        callback: function () { this.setMode('rectangle'); }
+      },
+      eraser: {
+        icon: 'activate',
+        group: 'tools',
+        title: 'Eraser',
+        index: 8,
+        callback: function () { this.setMode('eraser'); }
+      },
       undo: {
         icon: 'generic',
         title: 'Undo',
@@ -22,85 +77,30 @@
         index: 2,
         callback: function () { this.clear(); }
       },
-      rectangle: {
-        icon: 'activate',
-        title: 'Rectangle',
-        index: 3,
-        callback: function () { this.setMode('rectangle'); }
-      },
-      ellipse: {
-        icon: 'activate',
-        title: 'Ellipse',
-        index: 4,
-        callback: function () { this.setMode('ellipse'); }
-      },
-      line: {
-        icon: 'activate',
-        title: 'Line',
-        index: 5,
-        callback: function () { this.setMode('line'); }
-      },
-      arrow: {
-        icon: 'activate',
-        img: 'plugins/main/img/icons-arrow.png',
-        index: 0,
-        title: 'Arrow',
-        callback: function () { this.setMode('arrow'); }
-      },
-      pencil: {
-        icon: 'activate',
-        title: 'Pencil',
-        index: 6,
-        callback: function () { this.setMode('pencil'); }
-      },
-      eraser: {
-        icon: 'activate',
-        title: 'Eraser',
-        index: 8,
-        callback: function () { this.setMode('eraser'); }
-      },
-      bucket: {
-        icon: 'activate',
-        title: 'Bucket',
-        index: 9,
-        callback: function () { this.setMode('bucket'); }
-      },
       fillStyle: {
         title: 'Fill Color',
         icon: 'colorPicker',
         callback: function (color) { this.setFillStyle(color); }
-      },
-      lineWidth: {
-        icon: 'select',
-        title: 'Stroke Width',
-        range: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        value: 2,
-        callback: function (width) { this.setLineWidth(width); }
-      },
-      strokeStyle: {
-        icon: 'colorPicker',
-        title: 'Stroke Color',
-        callback: function (color) { this.setStrokeStyle(color); }
-      }      
+      }     
     }
   };
 
   // extend cursors
   $.extend($.fn.wPaint.cursors, {
-    'default': {path: 'plugins/main/img/cursor-crosshair.png', left: 7, top: 7},
-    dropper:   {path: 'plugins/main/img/cursor-dropper.png', left: 0, top: 12},
-    pencil:    {path: 'plugins/main/img/cursor-pencil.png', left: 0, top: 11.99},
-    bucket:    {path: 'plugins/main/img/cursor-bucket.png', left: 0, top: 10},
-    eraser1:   {path: 'plugins/main/img/cursor-eraser1.png', left: 1, top: 1},
-    eraser2:   {path: 'plugins/main/img/cursor-eraser2.png', left: 2, top: 2},
-    eraser3:   {path: 'plugins/main/img/cursor-eraser3.png', left: 2, top: 2},
-    eraser4:   {path: 'plugins/main/img/cursor-eraser4.png', left: 3, top: 3},
-    eraser5:   {path: 'plugins/main/img/cursor-eraser5.png', left: 3, top: 3},
-    eraser6:   {path: 'plugins/main/img/cursor-eraser6.png', left: 4, top: 4},
-    eraser7:   {path: 'plugins/main/img/cursor-eraser7.png', left: 4, top: 4},
-    eraser8:   {path: 'plugins/main/img/cursor-eraser8.png', left: 5, top: 5 },
-    eraser9:   {path: 'plugins/main/img/cursor-eraser9.png', left: 5, top: 5},
-    eraser10:  {path: 'plugins/main/img/cursor-eraser10.png', left: 6, top: 6}
+    'default': {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOC8xMS8xMyj8hykAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAAKElEQVQokWP4//8/AzYcEhLyH5ccEwMZYDhqYgwJCflPsq7RIKdAEwAlXE2/5hsdeQAAAABJRU5ErkJggg==', left: 7, top: 7},
+    dropper:   {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAYCAYAAADOMhxqAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOC8wOS8xM9AohnYAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAA60lEQVQ4je3SzypEARSA8d8dM6kpKQuPwBtY2TtSspCQlUewtqbsZGHFxkKTkrI5O9uJhUfwClaaZjAW7mjSdb3AnNXp9H2nzp9iOBz6LyLiGEvYK+qEiJjDBs7QxlOzBl7BIZbLUg+Pfwo4xWKZD3CQmeeNP7qv4wQPZekZF9D8BRbYwmdmXkbEB+ZxlJl9+Bk6IlrYRh93WEUD95k5GDVtjME76GVmp4TbmXk7DsNUt9stECVwHRGbmM3Mq6r5mphBC52I2MU0KuGRsF/ma3jDTWa+1wkvWPC9wtfMrP2V2teoisrDTYSJwBdMtVFOtaT7CAAAAABJRU5ErkJggg==', left: 0, top: 12},
+    pencil:    {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAArrAAAK6wGCiw1aAAAAFnRFWHRDcmVhdGlvbiBUaW1lADA4LzExLzEzKPyHKQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAABjUExURf///1tbW1paWl1dXVpaWl1dXV5eXomJiVpaWl5eXn5+fltbW1xcXHNzc1tbW1xcXEhISFdXV1paWn19fXZ2doqKim5ubm9vb3FxcXNzc3Z2dnd3d3h4eHp6ent7e3x8fIqKirNcuSYAAAAWdFJOUwB7fH5/gYOEhYmJioqPnJ/u9/r7/Pz/JDtMAAAAT0lEQVQIHT3BWQKAEBQF0Nsk0jwRj+x/lX08Oge/KfUo2uNKyDpn3wFMknE12BiNE2A6WFJgimzQYMKZOIJV3pAEm+n2HbL9ORsU67ag+AA1uAPtGvrbPAAAAABJRU5ErkJggg==', left: 0, top: 11.99},
+    bucket:    {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAQAAAD8fJRsAAAAAnNCSVQICFXsRgQAAAAJcEhZcwAACusAAArrAYKLDVoAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDgvMTEvMTMo/IcpAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAALxJREFUGBkFwa0uBgAAQNG7T9FEEptgkqYpgt0iaBrFJomqYhMEk2wkk2ySEYxkUwTmBSiqCZK/uc4hIiJc8yIiIoiIcNJn/9yIiCAcOO2o9+aXjy5HBM577YFnZm477KWLEfjtlXtmHkc44blTgUfu+2M+SER46IPjuOu6N+abCxGu+GMu462rjvhsfjjjnJ/mlgP8dCec9d188dU8jcBXNyNc8tfMO4cjcMhBRLhuPjkWEURERHjiYkTEPyashU9chKt6AAAAAElFTkSuQmCC', left: 0, top: 10},
+    eraser1:   {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOC8xMS8xMyj8hykAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAAGUlEQVQImWP4//8/AwMDw38oDWf8Z0CWAQBywhLuDWvvLQAAAABJRU5ErkJggg==', left: 1, top: 1},
+    eraser2:   {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOC8xMS8xMyj8hykAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAAIElEQVQImWP4//8/AwMDw38GBob/UDaEAZNgYkAH6FoAcUEX67L+lA0AAAAASUVORK5CYII=', left: 2, top: 2},
+    eraser3:   {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOC8xMS8xMyj8hykAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAAJklEQVQImW2MsQkAAAyDTP//2S7tFiEgGUQF8KeSk3AkcSjUk9ZcJcQW85j1wPQAAAAASUVORK5CYII=', left: 2, top: 2},
+    eraser4:   {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAK6wAACusBgosNWgAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOC8xMS8xMyj8hykAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAAKUlEQVQImZWNMQoAMAyEtP//s106ZMlQ4UC4QSqA5ip8IgO1w8L/wRa/Fd4Y8+iFI6cAAAAASUVORK5CYII=', left: 3, top: 3},
+    eraser5:   {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHAQMAAAD+nMWQAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAArrAAAK6wGCiw1aAAAAFnRFWHRDcmVhdGlvbiBUaW1lADA4LzExLzEzKPyHKQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAAEklEQVQI12OwYHBhaAJDFwYLABGAAn+QDsbSAAAAAElFTkSuQmCC', left: 3, top: 3},
+    eraser6:   {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAArrAAAK6wGCiw1aAAAAFnRFWHRDcmVhdGlvbiBUaW1lADA4LzExLzEzKPyHKQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAAEklEQVQI12OwYXBiaIRCJwYbABgQAwEuWVO3AAAAAElFTkSuQmCC', left: 4, top: 4},
+    eraser7:   {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJAQMAAADaX5RTAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAArrAAAK6wGCiw1aAAAAFnRFWHRDcmVhdGlvbiBUaW1lADA4LzExLzEzKPyHKQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAAGklEQVQI12OQYWBIZmBwZGBoaIAiR7CIDAMAPZsEgXomvwIAAAAASUVORK5CYII=', left: 4, top: 4},
+    eraser8:   {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAArrAAAK6wGCiw1aAAAAFnRFWHRDcmVhdGlvbiBUaW1lADA4LzExLzEzKPyHKQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAAG0lEQVQI12OQY2BIbGBwaGBocEAgIBcoKMcAAGG/Bn/pYoUOAAAAAElFTkSuQmCC', left: 5, top: 5 },
+    eraser9:   {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALAQMAAACTYuVlAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAArrAAAK6wGCiw1aAAAAFnRFWHRDcmVhdGlvbiBUaW1lADA4LzExLzEzKPyHKQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAAG0lEQVQI12OQZ2BQaGBwcGBoUEBBQBGguDwDAF1/BZ+pSNa0AAAAAElFTkSuQmCC', left: 5, top: 5},
+    eraser10:  {path: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMAQMAAABsu86kAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAArrAAAK6wGCiw1aAAAAFnRFWHRDcmVhdGlvbiBUaW1lADA4LzExLzEzKPyHKQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAAHElEQVQI12PgZ2AwOMDgoABCDQIIBBEBSvEzAABoHwW/Qv4i2QAAAABJRU5ErkJggg==', left: 6, top: 6}
   });
 
   // extend defaults
@@ -339,6 +339,51 @@
      ****************************************/
     _drawBucketDown: function (e) {
       this.ctx.fillArea(e.pageX, e.pageY, this.options.fillStyle);
+      this._addUndo();
+    },
+
+    /****************************************
+     * arrow
+     ****************************************/
+    _drawArrowDown: function (e) { this._drawShapeDown(e); },
+
+    _drawArrowMove: function (e) {
+      this._drawShapeMove(e,1);
+
+      var xo = this.canvasTempLeftOriginal;
+      var yo = this.canvasTempTopOriginal;
+
+      if (e.pageX < xo) { e.x = e.x + e.w; e.w = e.w * - 1; }
+      if (e.pageY < yo) { e.y = e.y + e.h; e.h = e.h * - 1; }
+
+      var lx = e.x + e.w + 5; // 5 seems like a good hack to keep the arrowhead within bounds of ctxTemp.
+      var ly = e.y + e.h + 5;
+
+      var angle = Math.atan2(e.h, e.w);
+
+      this.ctxTemp.lineJoin = 'round';
+      this.ctxTemp.beginPath();
+      this.ctxTemp.moveTo(e.x, e.y);
+      this.ctxTemp.lineTo(lx, ly);
+      this.ctxTemp.closePath();
+      this.ctxTemp.stroke();
+
+      this.ctxTemp.lineJoin = 'miter';
+      this.ctxTemp.beginPath();
+      this.ctxTemp.moveTo(lx, ly);
+      this.ctxTemp.lineTo(lx - 10 * Math.cos(angle - Math.PI / 7), ly - 10 * Math.sin(angle - Math.PI / 7));
+      this.ctxTemp.lineTo(lx - 10 * Math.cos(angle + Math.PI / 7), ly - 10 * Math.sin(angle + Math.PI / 7));
+      this.ctxTemp.lineTo(lx, ly);
+      this.ctxTemp.lineTo(lx - 10 * Math.cos(angle - Math.PI / 7), ly - 10 * Math.sin(angle - Math.PI / 7));
+      this.ctxTemp.closePath();
+      this.ctxTemp.fillStyle = this.ctxTemp.strokeStyle; // fill the arrowhead for stroke thickness 3 or below
+      this.ctxTemp.fill();
+      this.ctxTemp.stroke();
+      
+    },
+
+    _drawArrowUp: function (e) {
+      this._drawShapeUp(e);
       this._addUndo();
     }
   });

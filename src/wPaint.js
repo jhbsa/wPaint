@@ -63,7 +63,8 @@
           menu.items[key].name = key;
 
           // use default img if img not set
-          menu.items[key].img = _this.wPaint.options.path + (menu.items[key].img || menu.img);
+          // menu.items[key].img = _this.wPaint.options.path + (menu.items[key].img || menu.img);
+          menu.items[key].img = (menu.items[key].img || menu.img);
 
           // make self invoking to avoid overwrites
           (itemAppend)(menu.items[key]);
@@ -793,7 +794,8 @@
     setCursor: function (cursor) {
       cursor = $.fn.wPaint.cursors[cursor] || $.fn.wPaint.cursors['default'];
 
-      this.$el.css('cursor', 'url("' + this.options.path + cursor.path + '") ' + cursor.left + ' ' + cursor.top + ', default');
+      // this.$el.css('cursor', 'url("' + this.options.path + cursor.path + '") ' + cursor.left + ' ' + cursor.top + ', default');
+      this.$el.css('cursor', 'url("' + cursor.path + '") ' + cursor.left + ' ' + cursor.top + ', default');
     },
 
     setMenuOrientation: function (orientation) {
