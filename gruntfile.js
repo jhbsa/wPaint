@@ -42,7 +42,7 @@ module.exports = function(grunt) {
       my_target: {
         files: {
           './wPaint.min.js': ['./src/wPaint.js', './src/wPaint.utils.js'],
-          './plugins/main/wPaint.menu.main.min.js': ['./plugins/main/src/wPaint.menu.main.js', './plugins/main/src/fillArea.min.js'],
+          './plugins/main/wPaint.menu.main.min.js': ['./plugins/main/src/wPaint.menu.main.js', './plugins/main/src/ellipse.min.js'],
           './plugins/text/wPaint.menu.text.min.js': ['./plugins/text/src/wPaint.menu.text.js'],
           './plugins/shapes/wPaint.menu.main.shapes.min.js': ['./plugins/shapes/src/wPaint.menu.main.shapes.js', './plugins/shapes/src/shapes.min.js'],
           './plugins/file/wPaint.menu.main.file.min.js': ['./plugins/file/src/wPaint.menu.main.file.js']

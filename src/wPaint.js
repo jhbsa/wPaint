@@ -795,10 +795,10 @@
 
     setCursor: function (cursor) {
       if (this.options.isPaused) {
-        this.$el.css('cursor', 'auto');
+        this.$el.css('cursor', 'auto').css('pointer-events', 'none');
       } else {
         cursor = $.fn.wPaint.cursors[cursor] || $.fn.wPaint.cursors['default'];
-        this.$el.css('cursor', 'url("' + cursor.path + '") ' + cursor.left + ' ' + cursor.top + ', default');
+        this.$el.css('cursor', 'url("' + cursor.path + '") ' + cursor.left + ' ' + cursor.top + ', default').css('pointer-events', 'auto');
       }
     },
 
