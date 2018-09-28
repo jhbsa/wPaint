@@ -40,17 +40,32 @@
       },
       ellipse: {
         icon: 'activate',
-        group: 'tools',
+        img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NzA1QjczQzdDMjlFMTFFOEE4NTI4RjE5RTg4NTMyOTIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NzA1QjczQzhDMjlFMTFFOEE4NTI4RjE5RTg4NTMyOTIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo3MDVCNzNDNUMyOUUxMUU4QTg1MjhGMTlFODg1MzI5MiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo3MDVCNzNDNkMyOUUxMUU4QTg1MjhGMTlFODg1MzI5MiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pqs8aJAAAAA8UExURf///1RUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVKxCssUAAAATdFJOUwANECAhMDEzUmVpoKW9wMXg7/Av7VFKAAAAX0lEQVQY042PORKAMAwDlYRASDi9//8rDUcKF2ypGa8l6Te5HQBHy3eQNl62JEnZOJd5DGGclxPLUjTW8hjKikU19umzTjtNRu0/VUww9NEAXuQcOnqnhFPVG+TN/sEF6VoHWfcftEQAAAAASUVORK5CYII=',        group: 'tools',
+        index: 0,
         title: 'Ellipse',
-        index: 4,
         callback: function () { this.setMode('ellipse'); }
+      },
+      ellipsefilled: {
+        icon: 'activate',
+        group: 'tools',
+        title: 'Filled Ellipse',
+        index: 4,
+        callback: function () { this.setMode('ellipsefilled'); }
       },
       rectangle: {
         icon: 'activate',
+        img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAQMAAABsABwUAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzY1OUQ5OENDMjlEMTFFOEE2NEFFOERFNEFDOEI2M0EiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzY1OUQ5OERDMjlEMTFFOEE2NEFFOERFNEFDOEI2M0EiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDNjU5RDk4QUMyOUQxMUU4QTY0QUU4REU0QUM4QjYzQSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDNjU5RDk4QkMyOUQxMUU4QTY0QUU4REU0QUM4QjYzQSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgusSiIAAAAGUExURf///1RUVIymWK8AAAABdFJOUwBA5thmAAAAFUlEQVQI12NggIL//w+AMbEQph4KAKhRGfkBRPmQAAAAAElFTkSuQmCC',
+        index: 0,
         group: 'tools',
         title: 'Rectangle',
-        index: 3,
         callback: function () { this.setMode('rectangle'); }
+      },
+      rectanglefilled: {
+        icon: 'activate',
+        group: 'tools',
+        title: 'Filled Rectangle',
+        index: 3,
+        callback: function () { this.setMode('rectanglefilled'); }
       },
       eraser: {
         icon: 'activate',
@@ -77,11 +92,13 @@
         index: 2,
         callback: function () { this.clear(); }
       },
-      fillStyle: {
-        title: 'Fill Color',
-        icon: 'colorPicker',
-        callback: function (color) { this.setFillStyle(color); }
-      }     
+      pause: {
+        icon: 'toggle',
+        title: 'Pause',
+        img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RUNCMUNDQTZDMzVDMTFFODhBREM5REY5NzgyOEI0NDAiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RUNCMUNDQTdDMzVDMTFFODhBREM5REY5NzgyOEI0NDAiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFQ0IxQ0NBNEMzNUMxMUU4OEFEQzlERjk3ODI4QjQ0MCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFQ0IxQ0NBNUMzNUMxMUU4OEFEQzlERjk3ODI4QjQ0MCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PkdapysAAABYSURBVHjaYvz//z8DNQATA5UACzLH0dExE0hNQxKavn///iyoXAiQqkCSWwOU68BqEAEgCsTGSPxTNPHaqEGjBo0aRHzuJwBeA/FZJP4jZElGahVsAAEGAOdTE8+kg4bpAAAAAElFTkSuQmCC',
+        index: 0,
+        callback: function (toggle) { this.pause(toggle); }
+      }   
     }
   };
 
@@ -223,6 +240,18 @@
     },
 
     /****************************************
+     * pause
+     ****************************************/
+    pause: function (pauseState) {
+      this.options.isPaused = pauseState;
+      if (this.options.isPaused) { 
+        this.setCursor('paused');
+      } else {
+        this.setCursor(this.options.mode);
+      }
+    },
+
+    /****************************************
      * rectangle
      ****************************************/
     _drawRectangleDown: function (e) { this._drawShapeDown(e); },
@@ -232,7 +261,7 @@
 
       this.ctxTemp.rect(e.x, e.y, e.w, e.h);
       this.ctxTemp.stroke();
-      this.ctxTemp.fill();
+      // this.ctxTemp.fill();
     },
 
     _drawRectangleUp: function (e) {
@@ -250,10 +279,46 @@
 
       this.ctxTemp.ellipse(e.x, e.y, e.w, e.h);
       this.ctxTemp.stroke();
-      this.ctxTemp.fill();
+      // this.ctxTemp.fill();
     },
 
     _drawEllipseUp: function (e) {
+      this._drawShapeUp(e);
+      this._addUndo();
+    },
+
+        /****************************************
+     * Filled rectangle 
+     ****************************************/
+    _drawRectanglefilledDown: function (e) { this._drawShapeDown(e); },
+
+    _drawRectanglefilledMove: function (e) {
+      this._drawShapeMove(e);
+
+      this.ctxTemp.rect(e.x, e.y, e.w, e.h);
+      this.ctxTemp.stroke();
+      this.ctxTemp.fill();
+    },
+
+    _drawRectanglefilledUp: function (e) {
+      this._drawShapeUp(e);
+      this._addUndo();
+    },
+
+    /****************************************
+     * Filled ellipse
+     ****************************************/
+    _drawEllipsefilledDown: function (e) { this._drawShapeDown(e); },
+
+    _drawEllipsefilledMove: function (e) {
+      this._drawShapeMove(e);
+
+      this.ctxTemp.ellipse(e.x, e.y, e.w, e.h);
+      this.ctxTemp.stroke();
+      this.ctxTemp.fill();
+    },
+
+    _drawEllipsefilledUp: function (e) {
       this._drawShapeUp(e);
       this._addUndo();
     },

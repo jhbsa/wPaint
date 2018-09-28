@@ -257,7 +257,7 @@
 .wPaint-theme-standard .wPaint-menu-select {
   line-height: 10px;
   font-size: 10px;
-  max-height: 136px;
+  /* max-height: 136px; */
 }
 .wPaint-theme-standard .wPaint-menu-select-option {
   max-width: 50px;

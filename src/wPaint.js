@@ -230,7 +230,7 @@
       }
 
       function selectHolderClick() {
-        $icon.addClass('active').siblings('.active').removeClass('active');
+        $icon.addClass('active').siblings('.active').not('.wPaint-menu-icon-name-pause').removeClass('active');
       }
 
       function optionClick() {
@@ -342,7 +342,7 @@
         if (menus[menu] && menus[menu].type === 'secondary') { menus[menu].$menu.hide(); }  
       }
 
-      $el.siblings('.active').removeClass('active');
+      $el.siblings('.active').not('.wPaint-menu-icon-name-pause').removeClass('active');
       if (!$el.hasClass('disabled')) { $el.addClass('active'); }
     },
 
@@ -617,6 +617,7 @@
 
       // event functions
       function canvasMousedown(e) {
+        if (_this.options.isPaused) { return; }
         e.preventDefault();
         e.stopPropagation();
         _this.draw = true;
@@ -626,6 +627,7 @@
       }
 
       function documentMousemove(e) {
+        if (_this.options.isPaused) { return; }
         if (_this.draw) {
           e.canvasEvent = 'move';
           _this._callShapeFunc.apply(_this, [e]);
@@ -633,7 +635,7 @@
       }
 
       function documentMouseup(e) {
-
+        if (_this.options.isPaused) { return; }
         //make sure we are in draw mode otherwise this will fire on any mouse up.
         if (_this.draw) {
           _this.draw = false;
@@ -792,10 +794,12 @@
     },
 
     setCursor: function (cursor) {
-      cursor = $.fn.wPaint.cursors[cursor] || $.fn.wPaint.cursors['default'];
-
-      // this.$el.css('cursor', 'url("' + this.options.path + cursor.path + '") ' + cursor.left + ' ' + cursor.top + ', default');
-      this.$el.css('cursor', 'url("' + cursor.path + '") ' + cursor.left + ' ' + cursor.top + ', default');
+      if (this.options.isPaused) {
+        this.$el.css('cursor', 'auto');
+      } else {
+        cursor = $.fn.wPaint.cursors[cursor] || $.fn.wPaint.cursors['default'];
+        this.$el.css('cursor', 'url("' + cursor.path + '") ' + cursor.left + ' ' + cursor.top + ', default');
+      }
     },
 
     setMenuOrientation: function (orientation) {
@@ -1019,7 +1023,8 @@
       factor = factor || 2;
 
       // TODO: set this globally in _drawShapeDown (for some reason colors are being reset due to canvas resize - is there way to permanently set it)
-      this.ctxTemp.fillStyle = this.options.fillStyle;
+      // this.ctxTemp.fillStyle = this.options.fillStyle; // simplified to use same color for both stroke and fill.
+      this.ctxTemp.fillStyle = this.options.strokeStyle;
       this.ctxTemp.strokeStyle = this.options.strokeStyle;
       this.ctxTemp.lineWidth = this.options.lineWidth * factor;
     },
@@ -1181,6 +1186,7 @@
     imageStretch:    false,              // stretch smaller images to full canvans dimensions
     onShapeDown:     null,               // callback for draw down event
     onShapeMove:     null,               // callback for draw move event
-    onShapeUp:       null                // callback for draw up event
+    onShapeUp:       null,               // callback for draw up event
+    isPaused:        false
   };
 })(jQuery);
