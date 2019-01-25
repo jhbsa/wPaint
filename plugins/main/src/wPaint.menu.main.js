@@ -7,7 +7,7 @@
       lineWidth: {
         icon: 'select',
         title: 'Stroke Width',
-        range: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        range: [1, 3, 5, 10, 15, 20],
         value: 2,
         callback: function (width) { this.setLineWidth(width); }
       },
@@ -86,18 +86,26 @@
         index: 1,
         callback: function () { this.redo(); }
       },
-      clear: {
-        icon: 'generic',
-        title: 'Clear',
-        index: 2,
-        callback: function () { this.clear(); }
-      },
       pause: {
         icon: 'toggle',
         title: 'Pause',
         img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RUNCMUNDQTZDMzVDMTFFODhBREM5REY5NzgyOEI0NDAiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RUNCMUNDQTdDMzVDMTFFODhBREM5REY5NzgyOEI0NDAiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFQ0IxQ0NBNEMzNUMxMUU4OEFEQzlERjk3ODI4QjQ0MCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFQ0IxQ0NBNUMzNUMxMUU4OEFEQzlERjk3ODI4QjQ0MCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PkdapysAAABYSURBVHjaYvz//z8DNQATA5UACzLH0dExE0hNQxKavn///iyoXAiQqkCSWwOU68BqEAEgCsTGSPxTNPHaqEGjBo0aRHzuJwBeA/FZJP4jZElGahVsAAEGAOdTE8+kg4bpAAAAAElFTkSuQmCC',
         index: 0,
         callback: function (toggle) { this.pause(toggle); }
+      },
+      orient: {
+        icon: 'generic',
+        title: 'Change Orientation',
+        img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NjEyRDgzRDMwN0I0MTFFOTg5MjA5NjE4MTg3OEM1RDIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NjEyRDgzRDQwN0I0MTFFOTg5MjA5NjE4MTg3OEM1RDIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo2MTJEODNEMTA3QjQxMUU5ODkyMDk2MTgxODc4QzVEMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo2MTJEODNEMjA3QjQxMUU5ODkyMDk2MTgxODc4QzVEMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqQ820MAAACwSURBVHjaYgwJCWEAAj8glmAgDrwA4k0wzurVq8E0CxBHAfFSBtJANBAvQxYAGZQJZc8i0pA0qB4Mg2BgMRB/J2AIJ9QgDAAy6CYQ2wDxYRK8dhObQdOhbAMiDbmApAcOGKGxRgpIRgrXBSBDgTH3l4VEQ0CunoPEN4bSU1hg6YAYEBoaygNlHgHirUDcDsTSIAEmBiqBUYOGokEsZOqzgWLyXARMvEfQ8tl0GB8gwADAfCJJa6Gq2gAAAABJRU5ErkJggg==',
+        index: 0,
+        callback: function () { this.changeOrientation(); }
+      },
+      clear: {
+        icon: 'generic',
+        title: 'Clear',
+        img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RjIxQkUxNjIwN0IyMTFFOUE0QzlCRDk0OTlCQkI4QUYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RjIxQkUxNjMwN0IyMTFFOUE0QzlCRDk0OTlCQkI4QUYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpGMjFCRTE2MDA3QjIxMUU5QTRDOUJEOTQ5OUJCQjhBRiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpGMjFCRTE2MTA3QjIxMUU5QTRDOUJEOTQ5OUJCQjhBRiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pm5dyLsAAAH/SURBVHjadNNdiExhGMDx95wzGi4Mpd2MtkwpNz5K5CM13HKBpBE7RS5cKesrtFEjChE33G2hSLutImlcsBpp29JuW7gxtR9cLtvOlt3mnBn+z/acejveeerXNO/Hc96P5/VKpZJxxA5sxQj2YTWa2jeFy6jJnyiKTKFQMKlyuZxMsg1vsRQ/0YdDiTE1TWbq9brJ5/MmlU6n7QE+7msSiQ6sxStdWRynMYkhz/OGfd9fmGjHSWxPtA3jvHzcaluiKxq3VxBHgP2JJD9wF9/xONF3Dr9diRrYizP4pW1XMIOVmMUn2Q6e6NktinOksAHLtcHDQ7zEYTyzbkq299f68B7cQA/n9EAmR7rsDxjAI4zhJkKdFFlJ1qMfb7AJ3UEQtEmiFWi3vnQEu03rWIeD1v9spVK5HuRyuXd6BnHMIa21FDoSfcVOrFm4oSAw1Wp1s6xoWWKglPpZvcVWcUEvxzSbTZPJZKYk0SlrwDfc0sOddSTo1N9RXMXnMAwHisXiMbm1XhzVGupVi3WC3OJzPMUW3MMBfXdyAZPc2Hw2mx1M6YRrOnlj4iAlvmiZ3EGb492VGo3GtG89g4vY5dhOTd+cq08q/naysmXfHx2DpVgn8MLRJ+/tT1zZdhzHCayy2t5rMV7SV/Bab6yqhWlciWb0QE2LbXRpRf8X/wQYAKbkfb/aFtjvAAAAAElFTkSuQmCC',
+        index: 0,
+        callback: function () { this.clear(); }
       }   
     }
   };
@@ -123,9 +131,9 @@
   // extend defaults
   $.extend($.fn.wPaint.defaults, {
     mode:        'pencil',  // set mode
-    lineWidth:   '3',       // starting line width
+    lineWidth:   '10',       // starting line width
     fillStyle:   '#FFFFFF', // starting fill style
-    strokeStyle: '#FFFF00'  // start stroke style
+    strokeStyle: '#FF0000'  // start stroke style
   });
 
   // extend functions
@@ -168,6 +176,19 @@
     setCursor: function (cursor) {
       if (cursor === 'eraser') {
         this.setCursor('eraser' + this.options.lineWidth);
+      }
+    },
+
+    /****************************************
+     * change orientation
+     ****************************************/
+    changeOrientation: function () {
+      if (this.options.menuOrientation === 'horizontal') {
+        this.options.menuOrientation = 'vertical';
+        this.setMenuOrientation('vertical');
+      } else {
+        this.options.menuOrientation = 'horizontal';
+        this.setMenuOrientation('horizontal');
       }
     },
 
@@ -336,7 +357,7 @@
       
       if (e.pageX < xo) { e.x = e.x + e.w; e.w = e.w * - 1; }
       if (e.pageY < yo) { e.y = e.y + e.h; e.h = e.h * - 1; }
-      
+
       this.ctxTemp.lineJoin = 'round';
       this.ctxTemp.beginPath();
       this.ctxTemp.moveTo(e.x, e.y);
@@ -413,19 +434,67 @@
     _drawArrowDown: function (e) { this._drawShapeDown(e); },
 
     _drawArrowMove: function (e) {
-      this._drawShapeMove(e,1);
+      // begin new
+      var bFactor = 3;
+      this._drawShapeMove(e,bFactor);
+      // end new
 
       var xo = this.canvasTempLeftOriginal;
       var yo = this.canvasTempTopOriginal;
 
-      if (e.pageX < xo) { e.x = e.x + e.w; e.w = e.w * - 1; }
-      if (e.pageY < yo) { e.y = e.y + e.h; e.h = e.h * - 1; }
+      // if (e.pageX < xo) { e.x = e.x + e.w; e.w = e.w * - 1; }
+      // if (e.pageY < yo) { e.y = e.y + e.h; e.h = e.h * - 1; }
 
-      var lx = e.x + e.w + 5; // 5 seems like a good hack to keep the arrowhead within bounds of ctxTemp.
-      var ly = e.y + e.h + 5;
+      // var lx = e.x + e.w + 5; // 5 seems like a good hack to keep the arrowhead within bounds of ctxTemp.
+      // var ly = e.y + e.h + 5;
 
+      // begin new
+      var xOffset = -5;
+      var yOffset = -5;
+      var isHorizontal = false;
+      var isVertical = false;
+      console.log("x: " + e.x + " y: " + e.y + " width: " + e.w + " height: " + e.h);
+      if(e.w === 0) {
+        isVertical = true;
+        console.log("isVertical");
+      }
+
+      if(e.h === 0) {
+        isHorizontal = true;
+        console.log("isHorizontal");
+      }
+
+      e.x = e.x / bFactor;
+      e.y = e.y / bFactor;
+      e.w = e.w + (this.options.lineWidth * bFactor) - this.options.lineWidth;
+      e.h = e.h  + (this.options.lineWidth * bFactor) - this.options.lineWidth;
+
+      if (e.pageX < xo) { e.x = e.x + e.w; e.w = e.w * - 1; xOffset = xOffset * -1; }
+      if (e.pageY < yo) { e.y = e.y + e.h; e.h = e.h * - 1; yOffset = yOffset * -1; }
+
+      var lx = e.x + e.w + xOffset;
+      var ly = e.y + e.h + yOffset;
+      // end new
       var angle = Math.atan2(e.h, e.w);
 
+      // begin new
+      if(isVertical) {
+        e.x = e.x * bFactor;
+        lx = e.x;
+        ly = e.h + yOffset;
+        angle = Math.atan2(ly, 0);
+      }
+
+      if(isHorizontal) {
+        e.y = e.h / 2;
+        lx = e.w + xOffset;
+        ly = e.h / 2;
+      }
+
+      console.log("post => x: " + e.x + " y: " + e.y + " width: " + e.w + " height: " + e.h + " lx: " + lx + " ly: " + ly + ' angle: ' + angle);
+
+      this.ctxTemp.lineWidth = this.options.lineWidth; //return this to normal
+      // end new
       this.ctxTemp.lineJoin = 'round';
       this.ctxTemp.beginPath();
       this.ctxTemp.moveTo(e.x, e.y);

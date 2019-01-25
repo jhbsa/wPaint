@@ -25,8 +25,8 @@
       fontSize: {
         title: 'Font Size',
         icon: 'select',
-        range: [8, 9, 10, 12, 14, 16, 20, 24, 30],
-        value: 12,
+        range: [8, 10, 12, 14, 16, 20, 24, 30, 36, 42, 48],
+        value: 20,
         callback: function (size) { this.setFontSize(size); }
       },
       fontFamily: {
@@ -51,7 +51,7 @@
 
   // extend defaults
   $.extend($.fn.wPaint.defaults, {
-    fontSize       : '12',    // current font size for text input
+    fontSize       : '20',    // current font size for text input
     fontFamily     : 'Arial', // active font family for text input
     fontBold       : false,   // text input bold enable/disable
     fontItalic     : false,   // text input italic enable/disable
@@ -166,7 +166,7 @@
           lastj = 0,
           offset = this.$textInput.position(),
           left = offset.left + 1,
-          top = offset.top + 1,
+          top = offset.top + 2,
           //underlineOffset = 0,
           i, ii, j, jj;
 

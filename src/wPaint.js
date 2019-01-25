@@ -598,17 +598,26 @@
       function createCanvas(name) {
         var newName = (name ? name.capitalize() : ''),
             canvasName = 'canvas' + newName,
-            ctxName = 'ctx' + newName;
+            ctxName = 'ctx' + newName,
+            dpr = window.devicePixelRatio || 1;
 
         _this[canvasName] = document.createElement('canvas');
         _this[ctxName] = _this[canvasName].getContext('2d');
         _this['$' + canvasName] = $(_this[canvasName]);
         
-        _this['$' + canvasName]
-        .attr('class', 'wPaint-canvas' + (name ? '-' + name : ''))
-        .attr('width', _this.width + 'px')
-        .attr('height', _this.height + 'px')
-        .css({position: 'absolute', left: 0, top: 0});
+        if (canvasName === 'canvasTemp') {
+          _this['$' + canvasName]
+          .attr('class', 'wPaint-canvas' + (name ? '-' + name : ''))
+          .attr('width', _this.width * dpr + 'px')
+          .attr('height', _this.height * dpr + 'px')
+          .css({position: 'absolute', left: 0, top: 0});
+        } else {
+          _this['$' + canvasName]
+          .attr('class', 'wPaint-canvas' + (name ? '-' + name : ''))
+          .attr('width', _this.width * dpr + 'px')
+          .attr('height', _this.height * dpr + 'px')
+          .css({position: 'absolute', left: 0, top: 0, width: _this.width, height: _this.height});
+        }
 
         _this.$el.append(_this['$' + canvasName]);
 
@@ -651,6 +660,12 @@
       createCanvas('')
       .on('mousedown', canvasMousedown)
       .bindMobileEvents();
+      
+      var dpr = window.devicePixelRatio || 1;
+      console.log('dpr: ', dpr);
+      // support hires displays
+      this.ctx.scale(dpr, dpr);
+      this.ctxBg.scale(dpr, dpr);
       
       // create temp canvas for drawing shapes temporarily
       // before transfering to main canvas
@@ -1001,11 +1016,11 @@
           yo = this.canvasTempTopOriginal;
 
       // we may need these in other funcs, so we'll just pass them along with the event
-      factor = factor || 2;
+      factor = factor || 1;
       e.left = (e.pageX < xo ? e.pageX : xo);
       e.top = (e.pageY < yo ? e.pageY : yo);
-      e.width = Math.abs(e.pageX - xo);
-      e.height = Math.abs(e.pageY - yo);
+      e.width = Math.max(Math.abs(e.pageX - xo), this.options.lineWidth * factor);
+      e.height = Math.max(Math.abs(e.pageY - yo), this.options.lineWidth * factor);
       e.x = this.options.lineWidth / 2 * factor;
       e.y = this.options.lineWidth / 2 * factor;
       e.w = e.width - this.options.lineWidth * factor;
@@ -1020,7 +1035,7 @@
       this.canvasTempLeftNew = e.left;
       this.canvasTempTopNew = e.top;
 
-      factor = factor || 2;
+      factor = factor || 1;
 
       // TODO: set this globally in _drawShapeDown (for some reason colors are being reset due to canvas resize - is there way to permanently set it)
       // this.ctxTemp.fillStyle = this.options.fillStyle; // simplified to use same color for both stroke and fill.
