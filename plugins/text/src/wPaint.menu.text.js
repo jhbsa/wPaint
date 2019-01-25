@@ -166,33 +166,46 @@
           lastj = 0,
           offset = this.$textInput.position(),
           left = offset.left + 1,
-          top = offset.top + 2,
+          top = offset.top + 2, // was +1
           //underlineOffset = 0,
-          i, ii, j, jj;
+          i, ii, j, jj, lastWrappingIndex, curChar;
 
       if (this.options.fontItalic) { fontString += 'italic '; }
       //if(this.settings.fontUnderline) { fontString += 'underline '; }
       if (this.options.fontBold) { fontString += 'bold '; }
       
       fontString += this.options.fontSize + 'px ' + this.options.fontFamily;
-      
-      for (i = 0, ii = lines.length; i < ii; i++) {
+
+      // updated code to simulate textblock wrapping
+      lastWrappingIndex = -1;
+      for (i = 0, ii = lines.length; i < ii; i++) { // for each line (assuming there may already be hard returns \n)
         this.$textCalc.html('');
         lastj = 0;
         
-        for (j = 0, jj = lines[i].length; j < jj; j++) {
-          width = this.$textCalc.append(lines[i][j]).width();
-          
+        for (j = 0, jj = lines[i].length; j < jj; j++) { // chew through the line looking for last break opportunity before width constraint
+          curChar = lines[i].charAt(j)
+          if (curChar === ' ' || curChar === '-' || curChar === '+') {
+            lastWrappingIndex = j;
+          }
+          width = this.$textCalc.append(curChar).width();
           if (width > textInputWidth) {
-            linesNew.push(lines[i].substring(lastj, j));
-            lastj = j;
-            this.$textCalc.html(lines[i][j]);
+            if (lastWrappingIndex >= 0) {
+              linesNew.push(lines[i].substring(lastj, lastWrappingIndex).trim());
+              lastj = lastWrappingIndex;
+              lastWrappingIndex = -1;
+            } else { // there was no natural wrap point
+              linesNew.push(lines[i].substring(lastj, j).trim());
+              lastj = j;
+            }
+            this.$textCalc.html('').append(lines[i].substring(lastj, j)); // may be buffered text from multiple wraps
           }
         }
         
-        if (lastj !== j) { linesNew.push(lines[i].substring(lastj, j)); }
+        if (lastj !== j) {
+          linesNew.push(lines[i].substring(lastj, j).trim());
+        }
       }
-      
+
       lines = this.$textInput.val(linesNew.join('\n')).val().split('\n');
 
       for (i = 0, ii = lines.length; i < ii; i++) {
@@ -202,22 +215,6 @@
         this.ctx.fillText(lines[i], left, top);
         
         top += this.options.fontSize;
-        
-        /*if(lines[i] !== '' && this.options.fontTypeUnderline) {
-          width = this.$textCalc.html(lines[i]).width();
-          
-          //manually set pixels for underline since to avoid antialiasing 1px issue, and lack of support for underline in canvas
-          var imgData = this.ctx.getImageData(0, top+underlineOffset, width, 1);
-          
-          for (j=0; j<imgData.width*imgData.height*4; j+=4) {
-            imgData.data[j] = parseInt(this.options.fillStyle.substring(1,3), 16);
-            imgData.data[j+1] = parseInt(this.options.fillStyle.substring(3,5), 16);
-            imgData.data[j+2] = parseInt(this.options.fillStyle.substring(5,7), 16);
-            imgData.data[j+3] = 255;
-          }
-          
-          this.ctx.putImageData(imgData, left, top+underlineOffset);
-        }*/
       }
 
       this.$textInput.val('');
