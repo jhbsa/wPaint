@@ -453,15 +453,12 @@
       var yOffset = -5;
       var isHorizontal = false;
       var isVertical = false;
-      // console.log("x: " + e.x + " y: " + e.y + " width: " + e.w + " height: " + e.h);
       if(e.w === 0) {
         isVertical = true;
-        console.log("isVertical");
       }
 
       if(e.h === 0) {
         isHorizontal = true;
-        console.log("isHorizontal");
       }
 
       e.x = e.x / bFactor;
@@ -487,16 +484,18 @@
         } else {
           angle = Math.atan2(-ly,  0);
         }
-
       }
 
       if(isHorizontal) {
-        e.y = e.h / 2;
-        lx = e.w + xOffset;
-        ly = e.h / 2;
+        e.y = e.y * bFactor;
+        ly = e.y;
+        lx = e.x + e.w + xOffset;
+        if (e.w > 0) {
+          angle = Math.atan2(0,  lx);
+        } else {
+          angle = Math.atan2(0,  -ly);
+        }
       }
-
-      // console.log("post => x: " + e.x + " y: " + e.y + " width: " + e.w + " height: " + e.h + " lx: " + lx + " ly: " + ly + ' angle: ' + angle);
 
       this.ctxTemp.lineWidth = this.options.lineWidth; //return this to normal
       // end new
@@ -510,12 +509,9 @@
       this.ctxTemp.lineJoin = 'miter';
       this.ctxTemp.beginPath();
       this.ctxTemp.moveTo(lx, ly);
-      console.log('line info: e.x, e.y, e.h, e.w: ' + e.x + ', ' + e.y + ', ' + e.h + ', ' + e.w);
-      console.log('arrow info: lx, ly, angle: ' + lx + ', ' + ly + ', ' + angle);
       this.ctxTemp.lineTo(lx - 10 * Math.cos(angle - Math.PI / 7), ly - 10 * Math.sin(angle - Math.PI / 7));
       this.ctxTemp.lineTo(lx - 10 * Math.cos(angle + Math.PI / 7), ly - 10 * Math.sin(angle + Math.PI / 7));
       this.ctxTemp.lineTo(lx, ly);
-      // this.ctxTemp.lineTo(lx - 10 * Math.cos(angle - Math.PI / 7), ly - 10 * Math.sin(angle - Math.PI / 7));
       this.ctxTemp.closePath();
       this.ctxTemp.fillStyle = this.ctxTemp.strokeStyle; // fill the arrowhead for stroke thickness 3 or below
       this.ctxTemp.fill();

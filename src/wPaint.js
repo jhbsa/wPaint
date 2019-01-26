@@ -1027,7 +1027,7 @@
       e.h = e.height - this.options.lineWidth * factor;
 
       $(this.canvasTemp)
-      .css({left: e.left, top: e.top})
+      .css({left: e.left, top: e.top, backgroundColor: 'white'}) // TODO: remove , backgroundColor: 'white'
       .attr('width', e.width)
       .attr('height', e.height);
       
