@@ -662,7 +662,6 @@
       .bindMobileEvents();
       
       var dpr = window.devicePixelRatio || 1;
-      console.log('dpr: ', dpr);
       // support hires displays
       this.ctx.scale(dpr, dpr);
       this.ctxBg.scale(dpr, dpr);
