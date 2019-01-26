@@ -169,7 +169,7 @@
           top = offset.top + 2, // was +1
           //underlineOffset = 0,
           i, ii, j, jj, lastWrappingIndex, curChar;
-
+      console.log('initial lines array ', JSON.stringify(lines, null, 4));
       if (this.options.fontItalic) { fontString += 'italic '; }
       //if(this.settings.fontUnderline) { fontString += 'underline '; }
       if (this.options.fontBold) { fontString += 'bold '; }
@@ -181,6 +181,10 @@
       for (i = 0, ii = lines.length; i < ii; i++) { // for each line (assuming there may already be hard returns \n)
         this.$textCalc.html('');
         lastj = 0;
+        if (lines[i].length === 0) { // handle newline / linebreak
+          linesNew.push('');
+          continue;
+        }
         
         for (j = 0, jj = lines[i].length; j < jj; j++) { // chew through the line looking for last break opportunity before width constraint
           curChar = lines[i].charAt(j)
@@ -190,7 +194,7 @@
           width = this.$textCalc.append(curChar).width();
           if (width > textInputWidth) {
             if (lastWrappingIndex >= 0) {
-              linesNew.push(lines[i].substring(lastj, lastWrappingIndex).trim());
+              linesNew.push(lines[i].substring(lastj, lastWrappingIndex).trim()); // left trim: .replace(/^\s+/g, '')
               lastj = lastWrappingIndex;
               lastWrappingIndex = -1;
             } else { // there was no natural wrap point
@@ -207,6 +211,7 @@
       }
 
       lines = this.$textInput.val(linesNew.join('\n')).val().split('\n');
+      console.log('final lines array ', JSON.stringify(lines, null, 4));
 
       for (i = 0, ii = lines.length; i < ii; i++) {
         this.ctx.fillStyle = this.options.fillStyle;
