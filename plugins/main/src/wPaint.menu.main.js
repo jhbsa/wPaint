@@ -130,7 +130,7 @@
 
   // extend defaults
   $.extend($.fn.wPaint.defaults, {
-    mode:        'arrow',  // set mode // TODO: remove this after testing
+    mode:        'pencil',  // set mode
     lineWidth:   '10',       // starting line width
     fillStyle:   '#FFFFFF', // starting fill style
     strokeStyle: '#FF0000'  // start stroke style
