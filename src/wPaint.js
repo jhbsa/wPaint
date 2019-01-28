@@ -654,8 +654,8 @@
       }
 
       function documentKeyup(e) {
-        var e = e || window.event; // for IE to cover IEs window event-object
-        if(e.altKey && e.which == 65) { // alt + a to toggle pause, unpause
+        var ee = e || window.event; // for IE to cover IEs window event-object
+        if(ee.altKey && ee.which === 65) { // alt + a to toggle pause, unpause
           _this.menus.primary._getIcon('pause').trigger('click'); 
           return false;
         }
