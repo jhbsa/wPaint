@@ -653,6 +653,14 @@
         }
       }
 
+      function documentKeyup(e) {
+        var e = e || window.event; // for IE to cover IEs window event-object
+        if(e.altKey && e.which == 65) { // alt + a to toggle pause, unpause
+          _this.menus.primary._getIcon('pause').trigger('click'); 
+          return false;
+        }
+      }
+
       // create bg canvases
       createCanvas('bg');
       
@@ -674,7 +682,8 @@
       $(document)
       .on('mousemove', documentMousemove)
       .on('mousedown', $.proxy(this._closeSelectBoxes, this))
-      .on('mouseup', documentMouseup);
+      .on('mouseup', documentMouseup)
+      .on('keyup', documentKeyup);
 
       // we will need to preset theme to get proper dimensions
       // when creating menus which will be appended after this
