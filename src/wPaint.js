@@ -711,15 +711,19 @@
 
     resize: function () {
       var bg = this.getBg(),
-          image = this.getImage();
+          image = this.getImage(),
+          dpr = window.devicePixelRatio || 1;
 
       this.width = this.$el.width();
       this.height = this.$el.height();
 
-      this.canvasBg.width = this.width;
-      this.canvasBg.height = this.height;
-      this.canvas.width = this.width;
-      this.canvas.height = this.height;
+      this.canvasBg.width = this.width * dpr;
+      this.canvasBg.height = this.height * dpr;
+      this.canvas.width = this.width * dpr;
+      this.canvas.height = this.height * dpr;
+      
+      this.$canvas.css({position: 'absolute', left: 0, top: 0, width: this.width, height: this.height});
+      this.$canvasBg.css({position: 'absolute', left: 0, top: 0, width: this.width, height: this.height});
 
       if (this.ctxBgResize === false) {
         this.ctxBgResize = true;
