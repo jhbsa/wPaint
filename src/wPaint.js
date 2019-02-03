@@ -772,8 +772,7 @@
 
       var _this = this,
           myImage = null,
-          ctx = '',
-          dpr = window.devicePixelRatio || 1;
+          ctx = '';
 
       function loadImage() {
         var ratio = 1, xR = 0, yR = 0, x = 0, y = 0, w = myImage.width, h = myImage.height;
