@@ -169,7 +169,6 @@
           top = offset.top + 2, // was +1
           //underlineOffset = 0,
           i, ii, j, jj, lastWrappingIndex, curChar;
-      console.log('initial lines array ', JSON.stringify(lines, null, 4));
       if (this.options.fontItalic) { fontString += 'italic '; }
       //if(this.settings.fontUnderline) { fontString += 'underline '; }
       if (this.options.fontBold) { fontString += 'bold '; }
@@ -211,7 +210,6 @@
       }
 
       lines = this.$textInput.val(linesNew.join('\n')).val().split('\n');
-      console.log('final lines array ', JSON.stringify(lines, null, 4));
 
       for (i = 0, ii = lines.length; i < ii; i++) {
         this.ctx.fillStyle = this.options.fillStyle;

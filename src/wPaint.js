@@ -717,13 +717,21 @@
       this.width = this.$el.width();
       this.height = this.$el.height();
 
-      this.canvasBg.width = this.width * dpr;
-      this.canvasBg.height = this.height * dpr;
-      this.canvas.width = this.width * dpr;
-      this.canvas.height = this.height * dpr;
-      
-      this.$canvas.css({position: 'absolute', left: 0, top: 0, width: this.width, height: this.height});
-      this.$canvasBg.css({position: 'absolute', left: 0, top: 0, width: this.width, height: this.height});
+      this.$canvas
+      .attr('width', this.width * dpr + 'px')
+      .attr('height', this.height * dpr + 'px')
+      .css({position: 'absolute', left: 0, top: 0, width: this.width, height: this.height});
+
+      this.$canvasBg
+      .attr('width', this.width * dpr + 'px')
+      .attr('height', this.height * dpr + 'px')
+      .css({position: 'absolute', left: 0, top: 0, width: this.width, height: this.height});
+
+      // reset support hires displays
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      this.ctxBg.setTransform(1, 0, 0, 1, 0, 0);
+      this.ctx.scale(dpr, dpr);
+      this.ctxBg.scale(dpr, dpr);
 
       if (this.ctxBgResize === false) {
         this.ctxBgResize = true;
@@ -764,11 +772,11 @@
 
       var _this = this,
           myImage = null,
-          ctx = '';
+          ctx = '',
+          dpr = window.devicePixelRatio || 1;
 
       function loadImage() {
         var ratio = 1, xR = 0, yR = 0, x = 0, y = 0, w = myImage.width, h = myImage.height;
-
         if (!resize) {
           // get width/height
           if (myImage.width > _this.width || myImage.height > _this.height || _this.options.imageStretch) {
@@ -785,7 +793,6 @@
           x = (_this.width - w) / 2;
           y = (_this.height - h) / 2;
         }
-
         ctx.clearRect(0, 0, _this.width, _this.height);
         ctx.drawImage(myImage, x, y, w, h);
 
@@ -838,17 +845,18 @@
 
     getImage: function (withBg) {
       var canvasSave = document.createElement('canvas'),
-          ctxSave = canvasSave.getContext('2d');
+          ctxSave = canvasSave.getContext('2d'),
+          dpr = window.devicePixelRatio || 1;
 
       withBg = withBg === false ? false : true;
-
+      ctxSave.scale(dpr,dpr);
       $(canvasSave)
       .css({display: 'none', position: 'absolute', left: 0, top: 0})
-      .attr('width', this.width)
-      .attr('height', this.height);
+      .attr('width', this.width * dpr)
+      .attr('height', this.height * dpr);
 
       if (withBg) { ctxSave.drawImage(this.canvasBg, 0, 0); }
-      ctxSave.drawImage(this.canvas, 0, 0);
+      ctxSave.drawImage(this.canvas, 0, 0, this.width, this.height);
 
       return canvasSave.toDataURL();
     },
