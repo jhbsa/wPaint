@@ -432,7 +432,8 @@
       if ($icon.hasClass('wPaint-menu-icon-group')) {
         $icon
         .on('mousedown', iconMousedown)
-        .on('mouseup', iconMouseup);
+        .on('mouseup', iconMouseup)
+        .bindMobileEvents();
       }
       else { $icon.on('click', iconClick); }
 
