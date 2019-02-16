@@ -711,7 +711,7 @@
     },
 
     resize: function () {
-      if (this.options.mode == 'text') { return; } // don't resize on soft keyboard popup
+      if (this.options.mode === 'text') { return; } // don't resize on soft keyboard popup
       var bg = this.getBg(),
           image = this.getImage(),
           dpr = window.devicePixelRatio || 1;
