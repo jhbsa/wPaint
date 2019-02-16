@@ -728,12 +728,6 @@
       .attr('height', this.height * dpr + 'px')
       .css({position: 'absolute', left: 0, top: 0, width: this.width, height: this.height});
 
-      // reset support hires displays
-      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-      this.ctxBg.setTransform(1, 0, 0, 1, 0, 0);
-      this.ctx.scale(dpr, dpr);
-      this.ctxBg.scale(dpr, dpr);
-
       if (this.ctxBgResize === false) {
         this.ctxBgResize = true;
         this.setBg(bg, true);
@@ -777,11 +771,14 @@
 
       function loadImage() {
         var ratio = 1, xR = 0, yR = 0, x = 0, y = 0, w = myImage.width, h = myImage.height;
+        var dpr = window.devicePixelRatio || 1;
+        var canvasWidth = _this.width * dpr;
+        var canvasHeight = _this.height * dpr;
         if (!resize) {
           // get width/height
-          if (myImage.width > _this.width || myImage.height > _this.height || _this.options.imageStretch) {
-            xR = _this.width / myImage.width;
-            yR = _this.height / myImage.height;
+          if (myImage.width > canvasWidth || myImage.height > canvasHeight || _this.options.imageStretch) {
+            xR = canvasWidth / myImage.width;
+            yR = canvasHeight / myImage.height;
 
             ratio = xR < yR ? xR : yR;
 
@@ -790,12 +787,14 @@
           }
 
           // get left/top (centering)
-          x = (_this.width - w) / 2;
-          y = (_this.height - h) / 2;
+          x = (canvasWidth - w) / 2;
+          y = (canvasHeight - h) / 2;
         }
-        ctx.clearRect(0, 0, _this.width, _this.height);
+        // need to draw 1:1, so remove context scale temporarily
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         ctx.drawImage(myImage, x, y, w, h);
-
+        ctx.scale(dpr, dpr); // turning it back on :)
         _this[ctxType + 'Resize'] = false;
 
         // Default is to run the undo.
@@ -847,16 +846,18 @@
       var canvasSave = document.createElement('canvas'),
           ctxSave = canvasSave.getContext('2d'),
           dpr = window.devicePixelRatio || 1;
-
+      var canvasWidth = this.width * dpr;
+      var canvasHeight = this.height * dpr;
+      
       withBg = withBg === false ? false : true;
-      ctxSave.scale(dpr,dpr);
+
       $(canvasSave)
-      .css({display: 'none', position: 'absolute', left: 0, top: 0})
-      .attr('width', this.width * dpr)
-      .attr('height', this.height * dpr);
+      .css({display: 'none', position: 'absolute', left: 0, top: 0, width: this.width, height: this.height})
+      .attr('width', canvasWidth)
+      .attr('height', canvasHeight);
 
       if (withBg) { ctxSave.drawImage(this.canvasBg, 0, 0); }
-      ctxSave.drawImage(this.canvas, 0, 0, this.width, this.height);
+      ctxSave.drawImage(this.canvas, 0, 0, canvasWidth, canvasHeight);
 
       return canvasSave.toDataURL();
     },
