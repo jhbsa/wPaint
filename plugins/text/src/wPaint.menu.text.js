@@ -98,8 +98,12 @@
     /****************************************
      * setters
      ****************************************/
-    setFillStyle: function (fillStyle) {
-      this.$textInput.css('color', fillStyle);
+    // setFillStyle: function (fillStyle) {
+    //   this.$textInput.css('color', fillStyle);
+    // },
+
+    setStrokeStyle: function (strokeStyle) {
+      this.$textInput.css('color', strokeStyle);
     },
 
     setFontSize: function (size) {
@@ -212,7 +216,7 @@
       lines = this.$textInput.val(linesNew.join('\n')).val().split('\n');
 
       for (i = 0, ii = lines.length; i < ii; i++) {
-        this.ctx.fillStyle = this.options.fillStyle;
+        this.ctx.fillStyle = this.options.strokeStyle;
         this.ctx.textBaseline = 'top';
         this.ctx.font = fontString;
         this.ctx.fillText(lines[i], left, top);
